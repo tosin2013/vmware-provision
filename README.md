@@ -20,7 +20,7 @@ Here's an example of how you could launch this role
   gather_facts: no
 
   roles:
-    - kev-vmware-provision
+    - GoKEV.vmware-provision
 
 - hosts: newlyprovisionedvm
   roles:
@@ -32,7 +32,7 @@ Here's an example of how you could launch this role
 
 <pre>
 ---
-- name: gokev.role1
+- name: GoKEV.vmware-provision
   version: latest
   src: https://github.com/GoKEV/GoKEV-vmware-provision.git
 </pre>
