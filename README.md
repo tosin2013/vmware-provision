@@ -28,7 +28,14 @@ Here's an example of how you could launch this role
     - kev-role-post-build-two
 </pre>
 
+## With a requirements.yml that looks as such:
 
+<pre>
+---
+- name: gokev.role1
+  version: latest
+  src: https://github.com/GoKEV/GoKEV-vmware-provision.git
+</pre>
 
 ## Troubleshooting & Improvements
 
