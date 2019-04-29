@@ -19,6 +19,8 @@
 
     networks:
     - name: "{{ vmware_network }}"
+    type: dhcp
+    start_connected: True
 
   register: newvminfo
   delegate_to: localhost
