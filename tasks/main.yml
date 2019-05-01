@@ -51,9 +51,3 @@
       vmware_new_ip: "{{ newvminfo.instance.hw_eth0 | ipv4('address') }}"
       vmware_new_hostname: "{{ vmware_new_hostname }}"
     ignore_errors: true
-
-- name: "add {{ newvminfo.instance.hw_eth0 | ipv4('address')  }} host to group {{ new_vmware_inventory_group }}"
-  add_host:
-    name: "{{ newvminfo.instance.hw_eth0 | ipv4('address')  }}"
-    groups: "{{ new_vmware_inventory_group }}"
-  changed_when: False
