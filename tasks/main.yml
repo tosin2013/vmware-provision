@@ -43,11 +43,3 @@
     msg: "New UUID is {{ newvminfo.instance.hw_product_uuid }}"
   when: newvminfo.instance.hw_product_uuid is defined
   ignore_errors: true
-
-- name: "Using set_stats to save info from the newly provisionined VM"
-  set_stats:
-    data:
-      vmware_new_uuid: "{{ newvminfo.instance.hw_product_uuid }}"
-      vmware_new_ip: "{{ newvminfo.instance.hw_eth0 | ipv4('address') }}"
-      vmware_new_hostname: "{{ vmware_new_hostname }}"
-    ignore_errors: true
