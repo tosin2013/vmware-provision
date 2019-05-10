@@ -58,3 +58,10 @@
     groups: "{{ new_vmware_inventory_group }}"
   changed_when: False
 
+- name: Add Additional disk to virtual machine
+  disk:
+  - size_gb: "{{ vmware_disk_two_size }}"
+    type: thin
+    datastore: "{{ vmware_datastore }}"
+    state: present
+  when:  adddisk

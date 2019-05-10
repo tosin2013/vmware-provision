@@ -2,7 +2,7 @@
 
 <div style="position: absolute; top: 40px; left: 200px;">
 
-# GoKEV-vmware-provision role
+# vmware-provision role
 
 This project is an Ansible role to deploy to a local ESXi server or VCenter.
   - This role assumes you're feeding credentials through an Ansible Tower credential type
