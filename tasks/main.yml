@@ -1,4 +1,34 @@
 ---
+- name: "Deploy new VM called {{ vmware_new_hostname }} with {{ vm_cpu_count }} CPUs, {{ vmware_disk_size }} HDD,  {{ vmware_disk_two_size }} Second HDD, {{ vmware_ram_mb }} RAM with {{ vmware_network }} network from {{ vmware_template_name }} template."
+  vmware_guest:
+    datacenter: "{{ vmware_datacenter }}"
+    name: "{{ vmware_new_hostname }}"
+    template: "{{ vmware_template_name }}"
+    wait_for_ip_address: yes
+    folder: "{{ vmware_folder }}"
+    state: "{{ vmware_state }}"
+
+    disk:
+    - size_gb: "{{ vmware_disk_size }}"
+      type: thin
+      datastore: "{{ vmware_datastore }}"
+
+    - size_gb: "{{ vmware_disk_two_size }}"
+      type: thin
+      datastore: "{{ vmware_datastore }}"
+      state: present
+
+
+
+    hardware:
+      memory_mb: "{{ vmware_ram_mb }}"
+      num_cpus: "{{ vm_cpu_count }}"
+
+    networks:
+    - name: "{{ vmware_network }}"
+      start_connected: True
+  when: adddisk
+
 - name: "Deploy new VM called {{ vmware_new_hostname }} with {{ vm_cpu_count }} CPUs, {{ vmware_disk_size }} HDD, {{ vmware_ram_mb }} RAM with {{ vmware_network }} network from {{ vmware_template_name }} template."
   vmware_guest:
     datacenter: "{{ vmware_datacenter }}"
@@ -20,7 +50,7 @@
     networks:
     - name: "{{ vmware_network }}"
       start_connected: True
-
+  when: not adddisk
 
   register: newvminfo
   delegate_to: localhost
@@ -43,11 +73,3 @@
     msg: "New UUID is {{ newvminfo.instance.hw_product_uuid }}"
   when: newvminfo.instance.hw_product_uuid is defined
   ignore_errors: true
-
-- name: Add Additional disk to virtual machine
-  disk:
-  - size_gb: "{{ vmware_disk_two_size }}"
-    type: thin
-    datastore: "{{ vmware_datastore }}"
-    state: present
-  when:  adddisk
