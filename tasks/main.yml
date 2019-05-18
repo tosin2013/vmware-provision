@@ -29,6 +29,53 @@
       start_connected: True
   when: adddisk
 
+  register: newvminfo
+  delegate_to: localhost
+  changed_when: False
+
+- name: debug newvminfo raw
+  debug:
+    msg: "RAW INFO: {{ newvminfo }}"
+  when: newvminfo is defined
+  ignore_errors: true
+
+- name: debug newvminfo ipv4 information
+  debug:
+    msg: "{{ newvminfo.instance.ipv4 }}"
+  when: newvminfo is defined
+  ignore_errors: true
+
+
+- name: debug newvminfo.instance.hw_eth0.ipaddresses
+  debug:
+    msg: "RAW INFO: {{ newvminfo.instance.hw_eth0.ipaddresses | ipv4 }}"
+  when: foundipv4  == false
+  vars:
+    foundipv4: "{{ newvminfo.instance.hw_eth0 | ipv4 }}"
+  ignore_errors: true
+
+- name: "IP address of the VM to Tower Workflows"
+  set_stats:
+    data:
+      vm_host_name: "{{ vmware_new_hostname }}"
+      vm_ip_address: "{{ newvminfo.instance.hw_eth0.ipv4 }}"
+  when: foundipv4  != false
+  vars:
+    foundipv4: "{{ newvminfo.instance.hw_eth0 | ipv4 }}"
+  ignore_errors: true
+
+- name: "IP address of the VM to Tower Workflows"
+  set_stats:
+    data:
+      vm_host_name: "{{ vmware_new_hostname }}"
+      vm_ip_address: "{{ newvminfo.instance.hw_eth0.ipaddresses  | ipv4 }}"
+    when: foundipv4  == false
+  vars:
+    foundipv4: "{{ newvminfo.instance.hw_eth0 | ipv4 }}"
+
+- meta: end_play
+
+# if adddisk is false run this playbook
 - name: "Deploy new VM called {{ vmware_new_hostname }} with {{ vm_cpu_count }} CPUs, {{ vmware_disk_size }} HDD, {{ vmware_ram_mb }} RAM with {{ vmware_network }} network from {{ vmware_template_name }} template."
   vmware_guest:
     datacenter: "{{ vmware_datacenter }}"
@@ -58,18 +105,43 @@
 
 - name: debug newvminfo raw
   debug:
-    msg: "New IP address is {{ newvminfo }}"
+    msg: "RAW INFO: {{ newvminfo }}"
   when: newvminfo is defined
   ignore_errors: true
 
-- name: debug newvminfo.instance.ipv4
+- name: debug newvminfo ipv4 information
   debug:
-    msg: "New IP address is {{ newvminfo.instance.hw_eth0 | ipv4('address') }}"
-  when: newvminfo.instance.ipv4 is defined
+    msg: "{{ newvminfo.instance.ipv4 }}"
+  when: newvminfo is defined
   ignore_errors: true
 
-- name: debug newvminfo.instance.ipv4
+
+- name: debug newvminfo.instance.hw_eth0.ipaddresses
   debug:
-    msg: "New UUID is {{ newvminfo.instance.hw_product_uuid }}"
-  when: newvminfo.instance.hw_product_uuid is defined
+    msg: "RAW INFO: {{ newvminfo.instance.hw_eth0.ipaddresses | ipv4 }}"
+  when: foundipv4  == false
+  vars:
+    foundipv4: "{{ newvminfo.instance.hw_eth0 | ipv4 }}"
+  ignore_errors: true
+
+
+
+- name: "IP address of the VM to Tower Workflows"
+  set_stats:
+    data:
+      vm_host_name: "{{ vmware_new_hostname }}"
+      vm_ip_address: "{{ newvminfo.instance.hw_eth0.ipv4 }}"
+  when: foundipv4  != false
+  vars:
+    foundipv4: "{{ newvminfo.instance.hw_eth0 | ipv4 }}"
+  ignore_errors: true
+
+- name: "IP address of the VM to Tower Workflows"
+  set_stats:
+    data:
+      vm_host_name: "{{ vmware_new_hostname }}"
+      vm_ip_address: "{{ newvminfo.instance.hw_eth0.ipaddresses  | ipv4 }}"
+    when: foundipv4  == false
+  vars:
+    foundipv4: "{{ newvminfo.instance.hw_eth0 | ipv4 }}"
   ignore_errors: true
