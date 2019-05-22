@@ -1,4 +1,3 @@
-dd
 - include_tasks: twodisks.yml
   when: adddisk
 - include_tasks: singledisk.yml
