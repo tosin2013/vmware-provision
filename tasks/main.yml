@@ -1,4 +1,6 @@
+- include_tasks: threedisks.yml
+  when: diskcount == 3
 - include_tasks: twodisks.yml
-  when: adddisk
+  when: diskcount == 2
 - include_tasks: singledisk.yml
-  when: not adddisk
+  when: diskcount == 1

@@ -13,6 +13,7 @@ vm_core_per_cpu: 1
 vmware_network: VLAN20
 vmware_state: poweredon
 new_vmware_inventory_group: newlyprovisionedvm
+diskcount: 1
 
 #vmware_manual_ip: NULL
 #vmware_manual_netmask: NULL
