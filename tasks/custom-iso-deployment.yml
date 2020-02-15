@@ -11,10 +11,12 @@
     datacenter: "{{ vmware_datacenter }}"
     validate_certs: False
     name: "{{ vmware_new_hostname }}"
-    folder: /
+    folder: "{{ vmware_folder }}"
     guest_id: "{{ vm_guest_id }}"
-    state: poweredon
+    state: "{{ vmware_state }}"
     force: yes
+    wait_for_ip_address: yes
+    
     disk:
       - size_gb: "{{ vmware_disk_size }}"
         type: thin

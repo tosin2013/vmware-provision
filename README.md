@@ -45,6 +45,9 @@ Here's an example of how you could launch this role
 
   - Not enough testing yet
 
+## Reference 
+  - [Enum - VirtualMachineGuestOsIdentifier](https://www.vmware.com/support/developer/converter-sdk/conv55_apireference/vim.vm.GuestOsDescriptor.GuestOsIdentifier.html)
+
 ## Author
 
 This project was created in 2018 by [Kevin Holmes](http://GoKEV.com/).
