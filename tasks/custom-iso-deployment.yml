@@ -1,0 +1,39 @@
+- name: current time
+  command: date +%D
+  register: current_time
+
+- name: debug the time
+  debug: msg="Time is = '{{ current_time }}'"
+
+
+- name: "Provision the VM"
+  vmware_guest:
+    datacenter: "{{ vmware_datacenter }}"
+    validate_certs: False
+    name: "{{ vmware_new_hostname }}"
+    folder: /
+    guest_id: "{{ vm_guest_id }}"
+    state: poweredon
+    force: yes
+    disk:
+      - size_gb: "{{ vmware_disk_size }}"
+        type: thin
+        datastore: "{{ vmware_datastore }}"
+
+    networks:
+      - name: "{{ vmware_network }}"
+        start_connected: True
+
+    hardware:
+      memory_mb: "{{ vmware_ram_mb }}"
+      num_cpus: "{{ vm_cpu_count }}"
+      num_cpu_cores_per_socket: "{{ vm_core_per_cpu }}"
+      hotadd_cpu: True
+      hotremove_cpu: True
+      hotadd_memory: True
+      scsi: pvscsi
+
+    cdrom:
+      type: "iso"
+      iso_path: "{{ iso_path_loc }}"
+  register: result

@@ -14,8 +14,9 @@ vmware_network: VLAN20
 vmware_state: poweredon
 new_vmware_inventory_group: newlyprovisionedvm
 diskcount: 1
+iso_path_loc: ''
+vm_guest_id: ''
 
 #vmware_manual_ip: NULL
 #vmware_manual_netmask: NULL
 #vmware_manual_mac: NULL
-
