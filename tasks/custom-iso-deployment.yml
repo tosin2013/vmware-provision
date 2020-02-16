@@ -15,7 +15,7 @@
     datacenter: "{{ vmware_datacenter }}"
     name: "{{ vmware_new_hostname }}"
     folder: "{{ vmware_folder }}"
-    guest_id: "{{ it vm_guest_id }}"
+    guest_id: "{{ vm_guest_id }}"
     state: "{{ vmware_state }}"
     force: yes
     wait_for_ip_address: yes
