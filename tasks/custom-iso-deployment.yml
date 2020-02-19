@@ -37,6 +37,7 @@
       hotremove_cpu: True
       hotadd_memory: True
       scsi: paravirtual
+      boot_firmware: "efi"
 
     cdrom:
       type: "iso"
