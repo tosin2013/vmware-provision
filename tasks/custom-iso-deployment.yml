@@ -42,4 +42,11 @@
     cdrom:
       type: "iso"
       iso_path: "{{ iso_path_loc }}"
-  register: result
+  register: newvminfo
+
+- name: Wait 300 seconds for port 22  to be active
+  wait_for:
+    host: "{{ newvminfo.instance.hw_eth0.ipv4 }}"
+    port: 22
+    delay: 60
+    state: started
