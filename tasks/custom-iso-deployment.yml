@@ -59,7 +59,7 @@
     validate_certs: no
     name: "{{ vmware_new_hostname }}"
   register: vminfo
-  until:  vminfo.instance.hw_eth0.ipaddresses |length != 0
+  until:  vminfo.instance.hw_eth0.ipaddresses is none
   retries: 10
   delay: 1
   ignore_errors: yes
