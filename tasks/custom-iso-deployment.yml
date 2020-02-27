@@ -59,10 +59,10 @@
     validate_certs: no
     name: "{{ vmware_new_hostname }}"
   register: vminfo
-  #until:  vminfo.instance.hw_eth0.ipaddresses != ''
-  #retries: 10
-  #delay: 1
-  #ignore_errors: yes
+  until:  vminfo.instance.hw_eth0.ipaddresses != ''
+  retries: 10
+  delay: 1
+  ignore_errors: yes
 
 - name: debug vminfo raw
   debug:
@@ -72,13 +72,13 @@
 
 - name: debug vminfo ipv4 information
   debug:
-    msg: "{{  vminfo.instance.hw_eth0.ipaddresses  }}"
+    msg: "{{  vminfo.instance.hw_eth0.ipaddresses | ipv4 }}"
   when: vminfo is defined
   ignore_errors: true
 
 - name: Wait 300 seconds for port 22  to be active
   wait_for:
-    host: "{{ vminfo.instance.hw_eth0.ipv4 }}"
+    host: "{{ vminfo.instance.hw_eth0.ipaddresses| ipv4 }}"
     port: 22
     delay: 60
     state: started
