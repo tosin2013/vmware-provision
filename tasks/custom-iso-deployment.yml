@@ -59,7 +59,7 @@
     validate_certs: no
     uuid: "{{ newvminfo.instance.instance_uuid }}"
   register: vminfo
-  until:  vminfo.instance.ipv4 == 0
+  until:  vminfo.instance.ipv4 != ''
   retries: 10
   delay: 1
   ignore_errors: yes
