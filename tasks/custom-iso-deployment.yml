@@ -44,6 +44,18 @@
       iso_path: "{{ iso_path_loc }}"
   register: newvminfo
 
+- name: debug newvminfo raw
+  debug:
+    msg: "RAW INFO: {{ newvminfo }}"
+  when: newvminfo is defined
+  ignore_errors: true
+
+- name: debug newvminfo ipv4 information
+  debug:
+    msg: "{{ newvminfo.instance.ipv4 }}"
+  when: newvminfo is defined
+  ignore_errors: true
+  
 - name: Wait 300 seconds for port 22  to be active
   wait_for:
     host: "{{ newvminfo.instance.hw_eth0.ipv4 }}"
