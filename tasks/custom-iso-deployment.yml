@@ -52,7 +52,6 @@
     datacenter: "{{ vmware_datacenter }}"
     validate_certs: no
     uuid: 421187b6-4021-cf4f-4f89-050bca6b5b69
-  delegate_to: localhost
   register: vminfo
 
 - name: debug newvminfo raw
