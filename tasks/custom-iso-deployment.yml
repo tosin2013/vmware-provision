@@ -53,7 +53,7 @@
     datacenter: "{{ vmware_datacenter }}"
     name: "{{ vmware_new_hostname }}"
     schema: "vsphere"
-    properties: ["hw_eth0.ipaddresses", "guest.disk", "moid"]
+    properties:  ["config.hardware.memoryMB", "guest.disk", "overallStatus"]
   delegate_to: localhost
   register: newvminfo
 
