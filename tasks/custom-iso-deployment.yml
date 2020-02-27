@@ -44,6 +44,12 @@
       iso_path: "{{ iso_path_loc }}"
   register: newvminfo
 
+- name: debug newvminfo raw
+  debug:
+    msg: "RAW INFO: {{ newvminfo }}"
+  when: newvminfo is defined
+  ignore_errors: true
+
 - name: Gather info from standalone ESXi server having datacenter as 'ha-datacenter'
   vmware_guest_info:
     hostname: "{{ vcenter_hostname }}"
@@ -51,14 +57,12 @@
     password: "{{ vcenter_password }}"
     datacenter: "{{ vmware_datacenter }}"
     validate_certs: no
-    uuid: 421187b6-4021-cf4f-4f89-050bca6b5b69
+    uuid: "{{ newvminfo.instance.instance_uuid }}"
   register: vminfo
-
-- name: debug newvminfo raw
-  debug:
-    msg: "RAW INFO: {{ newvminfo }}"
-  when: newvminfo is defined
-  ignore_errors: true
+  until:  vminfo.instance.ipv4 == 0
+  retries: 10
+  delay: 1
+  ignore_errors: yes
 
 - name: debug vminfo raw
   debug:
@@ -66,15 +70,15 @@
   when: vminfo is defined
   ignore_errors: true
 
-- name: debug newvminfo ipv4 information
+- name: debug vminfo ipv4 information
   debug:
-    msg: "{{ newvminfo.instance.ipv4 }}"
-  when: newvminfo is defined
+    msg: "{{ vminfo.instance.ipv4 }}"
+  when: vminfo is defined
   ignore_errors: true
 
 - name: Wait 300 seconds for port 22  to be active
   wait_for:
-    host: "{{ newvminfo.instance.hw_eth0.ipv4 }}"
+    host: "{{ vminfo.instance.hw_eth0.ipv4 }}"
     port: 22
     delay: 60
     state: started
