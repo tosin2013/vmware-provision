@@ -72,13 +72,13 @@
 
 - name: debug vminfo ipv4 information
   debug:
-    msg: "{{  vminfo.instance.hw_eth0.ipaddresses | ipv4 }}"
+    msg: "{{  vminfo.instance.ipv4| ipv4 }}"
   when: vminfo is defined
   ignore_errors: true
 
 - name: Wait 300 seconds for port 22  to be active
   wait_for:
-    host: "{{ vminfo.instance.hw_eth0.ipaddresses| ipv4 }}"
+    host: "{{ vminfo.instance.ipv4| ipv4 }}"
     port: 22
     delay: 60
     state: started
