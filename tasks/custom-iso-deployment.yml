@@ -44,23 +44,27 @@
       iso_path: "{{ iso_path_loc }}"
   register: newvminfo
 
-- name: Gather some info from a guest using the vSphere API output schema
+- name: Gather info from standalone ESXi server having datacenter as 'ha-datacenter'
   vmware_guest_info:
     hostname: "{{ vcenter_hostname }}"
     username: "{{ vcenter_username }}"
     password: "{{ vcenter_password }}"
-    validate_certs: no
     datacenter: "{{ vmware_datacenter }}"
-    name: "{{ vmware_new_hostname }}"
-    schema: "vsphere"
-    properties:  ["config.hardware.memoryMB", "guest.disk", "overallStatus"]
+    validate_certs: no
+    uuid: 421187b6-4021-cf4f-4f89-050bca6b5b69
   delegate_to: localhost
-  register: newvminfo
+  register: vminfo
 
 - name: debug newvminfo raw
   debug:
     msg: "RAW INFO: {{ newvminfo }}"
   when: newvminfo is defined
+  ignore_errors: true
+
+- name: debug vminfo raw
+  debug:
+    msg: "RAW INFO: {{ vminfo }}"
+  when: vminfo is defined
   ignore_errors: true
 
 - name: debug newvminfo ipv4 information
