@@ -50,9 +50,6 @@
   when: newvminfo is defined
   ignore_errors: true
 
-- debug: var={{ item }}
-  with_dict: newvminfo
-
 - name: Gather info from standalone ESXi server having datacenter as 'ha-datacenter'
   vmware_guest_info:
     hostname: "{{ vcenter_hostname }}"
@@ -62,13 +59,10 @@
     validate_certs: no
     uuid: "{{ newvminfo.instance.instance_uuid }}"
   register: vminfo
-  until:  vminfo.ipv4 != ''
+  until:  vminfo.instance.ipv4 != ''
   retries: 10
   delay: 1
   ignore_errors: yes
-
-- debug: var={{ item }}
-  with_dict: vminfo
 
 - name: debug vminfo raw
   debug:
@@ -78,7 +72,7 @@
 
 - name: debug vminfo ipv4 information
   debug:
-    msg: "{{ vminfo.ipv4 }}"
+    msg: "{{  vminfo.instance.ipv4  }}"
   when: vminfo is defined
   ignore_errors: true
 
