@@ -59,10 +59,10 @@
     validate_certs: no
     uuid: "5011b8b3-d56d-1c1b-1f52-6a6865a83e40"
   register: vminfo
-  until:  vminfo.instance.hw_eth0.ipaddresses != ''
-  retries: 10
-  delay: 1
-  ignore_errors: yes
+  #until:  vminfo.instance.hw_eth0.ipaddresses != ''
+  #retries: 10
+  #delay: 1
+  #ignore_errors: yes
 
 - name: debug vminfo raw
   debug:
