@@ -57,7 +57,7 @@
     password: "{{ vcenter_password }}"
     datacenter: "{{ vmware_datacenter }}"
     validate_certs: no
-    uuid: "{{ newvminfo.instance.instance_uuid }}"
+    uuid: "5011b8b3-d56d-1c1b-1f52-6a6865a83e40"
   register: vminfo
   until:  vminfo.instance.hw_eth0.ipaddresses != ''
   retries: 10
