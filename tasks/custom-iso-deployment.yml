@@ -59,7 +59,7 @@
     validate_certs: no
     uuid: "{{ newvminfo.instance.instance_uuid }}"
   register: vminfo
-  until:  vminfo.hw_eth0.ipaddresses != ''
+  until:  vminfo.instance.hw_eth0.ipaddresses != ''
   retries: 10
   delay: 1
   ignore_errors: yes
@@ -72,7 +72,7 @@
 
 - name: debug vminfo ipv4 information
   debug:
-    msg: "{{  vminfo.hw_eth0.ipaddresses  }}"
+    msg: "{{  vminfo.instance.hw_eth0.ipaddresses  }}"
   when: vminfo is defined
   ignore_errors: true
 
