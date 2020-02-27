@@ -50,6 +50,9 @@
   when: newvminfo is defined
   ignore_errors: true
 
+- debug: var={{ item }}
+  with_dict: newvminfo
+
 - name: Gather info from standalone ESXi server having datacenter as 'ha-datacenter'
   vmware_guest_info:
     hostname: "{{ vcenter_hostname }}"
@@ -63,6 +66,9 @@
   retries: 10
   delay: 1
   ignore_errors: yes
+
+- debug: var={{ item }}
+  with_dict: vminfo
 
 - name: debug vminfo raw
   debug:
