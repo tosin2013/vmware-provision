@@ -6,3 +6,7 @@
   when: diskcount == 1
 - include_tasks: custom-iso-deployment.yml
   when: iso_path_loc  != ""
+- include_tasks: custom-iso-deployment.yml
+  when:
+    - iso_path_loc  != ""
+    - cores_iso
