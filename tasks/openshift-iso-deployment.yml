@@ -19,6 +19,11 @@
     state: present
     force: yes
     wait_for_ip_address: no
+    customvalues:
+      - key: disk.EnableUUID
+        value: TRUE
+      - key: latency
+        value: high
 
     disk:
       - size_gb: "{{ vmware_disk_size }}"
@@ -36,9 +41,7 @@
       memory_reservation_lock: True
       scsi: paravirtual
 
-    customvalues:
-      disk.EnableUUID: TRUE
-      latency: high
+
 
     cdrom:
       type: "iso"
