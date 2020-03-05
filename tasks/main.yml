@@ -5,8 +5,10 @@
 - include_tasks: singledisk.yml
   when: diskcount == 1
 - include_tasks: custom-iso-deployment.yml
-  when: iso_path_loc  != ""
+  when:
+    - iso_path_loc  != ""
+    - cores_iso == False
 - include_tasks: custom-iso-deployment.yml
   when:
     - iso_path_loc  != ""
-    - cores_iso
+    - cores_iso == True
