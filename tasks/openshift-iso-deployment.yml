@@ -20,8 +20,6 @@
     force: yes
     wait_for_ip_address: no
     customvalues:
-      - key: disk.EnableUUID
-        value: TRUE
       - key: latency
         value: high
 
