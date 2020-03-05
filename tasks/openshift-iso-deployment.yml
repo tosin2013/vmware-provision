@@ -16,9 +16,9 @@
     name: "{{ vmware_new_hostname }}"
     folder: "{{ vmware_folder }}"
     guest_id: "{{ vm_guest_id }}"
-    state: poweredoff
+    state: present
     force: yes
-    wait_for_ip_address: yes
+    wait_for_ip_address: no
 
     disk:
       - size_gb: "{{ vmware_disk_size }}"
@@ -35,51 +35,17 @@
       num_cpu_cores_per_socket: "{{ vm_core_per_cpu }}"
       memory_reservation_lock: True
       scsi: paravirtual
-      boot_firmware: "efi"
+
+    customvalues:
+      disk.EnableUUID: TRUE
+      latency: high
 
     cdrom:
       type: "iso"
       iso_path: "{{ iso_path_loc }}"
   register: newvminfo
 
-- name: debug newvminfo raw
-  debug:
-    msg: "RAW INFO: {{ newvminfo }}"
-  when: newvminfo is defined
-  ignore_errors: true
-
-- name: Gather info from standalone ESXi server having datacenter as 'ha-datacenter'
-  vmware_guest_info:
-    hostname: "{{ vcenter_hostname }}"
-    username: "{{ vcenter_username }}"
-    password: "{{ vcenter_password }}"
-    datacenter: "{{ vmware_datacenter }}"
-    validate_certs: no
-    name: "{{ vmware_new_hostname }}"
-  register: vminfo
-  until:  vminfo.instance.hw_eth0.ipaddresses is not none
-  retries: 25
-  delay: 30
-  ignore_errors: yes
-
-- name: debug vminfo raw
-  debug:
-    msg: "RAW INFO: {{ vminfo }}"
-  when: vminfo is defined
-  ignore_errors: true
-
-- name: debug vminfo ipv4 information
-  debug:
-    msg: "{{  vminfo.instance.ipv4| ipv4 }}"
-  when: vminfo is defined
-  ignore_errors: true
-
-- name: Wait 300 seconds for port 22  to be active
-  wait_for:
-    host: "{{ vminfo.instance.ipv4| ipv4 }}"
-    port: 22
-    delay: 60
-    state: started
+-
 
 
 #1. govc device.boot -vm bootstrap -order disk,cdrom,ethernet
