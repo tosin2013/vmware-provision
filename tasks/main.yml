@@ -6,9 +6,7 @@
   when: diskcount == 1
 - include_tasks: custom-iso-deployment.yml
   when:
-    - iso_path_loc  != ""
-    - coreos_iso == False
+    - iso_path_loc  != "" and coreos_iso == false
 - include_tasks: custom-iso-deployment.yml
   when:
-    - iso_path_loc  != ""
-    - coreos_iso == True
+    - iso_path_loc  != "" and coreos_iso == true
