@@ -7,6 +7,6 @@
 - include_tasks: custom-iso-deployment.yml
   when:
     - iso_path_loc  != "" and coreos_iso == false
-- include_tasks: custom-iso-deployment.yml
+- include_tasks: openshift-iso-deployment.yml
   when:
     - iso_path_loc  != "" and coreos_iso == true
