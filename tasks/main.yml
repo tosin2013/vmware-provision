@@ -7,8 +7,8 @@
 - include_tasks: custom-iso-deployment.yml
   when:
     - iso_path_loc  != ""
-    - cores_iso == False
+    - coreos_iso == False
 - include_tasks: custom-iso-deployment.yml
   when:
     - iso_path_loc  != ""
-    - cores_iso == True
+    - coreos_iso == True
